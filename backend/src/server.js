@@ -11,7 +11,14 @@ app.use(cors());
 app.use(express.json());
 
 const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const roundRoutes = require('./routes/rounds');
+const courseRoutes = require('./routes/courses');
+
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/rounds', roundRoutes);
+app.use('/api/courses', courseRoutes);
 
 // Test route
 app.get('/api', (req, res) => {
