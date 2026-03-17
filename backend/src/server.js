@@ -25,6 +25,8 @@ app.get('/api', (req, res) => {
   res.json({ message: 'Golf Score Tracker API is running!' });
 });
 
+app.get("/health", (req, res) => res.json({ status: "ok" }));
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
