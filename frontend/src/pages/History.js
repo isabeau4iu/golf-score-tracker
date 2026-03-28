@@ -5,6 +5,8 @@ function History() {
   const [rounds, setRounds] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch all rounds for the authenticated user on component mount
+  // rounds are returned newest first by the API
   useEffect(() => {
     api.get('/rounds').then(res => {
       setRounds(res.data);
@@ -12,6 +14,8 @@ function History() {
     });
   }, []);
 
+  // Handle deletion of a round by asking for confirmation before sending the delete request
+  // On success, removes the round from local state to update the UI without a full refetch
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this round?')) return;
     await api.delete(`/rounds/${id}`);
@@ -23,13 +27,25 @@ function History() {
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Round History</h1>
+
+      {/* Show an empty state prompt if no rounds have been logged yet */}
       {rounds.length === 0 ? (
         <p>No rounds logged yet. <a href="/add-round">Log your first round!</a></p>
       ) : (
         <div style={styles.table}>
+
+          {/* Table header row */}
           <div style={styles.headerRow}>
-            <span>Date</span><span>Course</span><span>Score</span><span>Putts</span><span>FIR</span><span>GIR</span><span></span>
+            <span>Date</span>
+            <span>Course</span>
+            <span>Score</span>
+            <span>Putts</span>
+            <span>FIR</span>
+            <span>GIR</span>
+            <span></span>
           </div>
+
+          {/* One row per logged round — optional fields show '—' if not recorded */}
           {rounds.map(r => (
             <div key={r._id} style={styles.row}>
               <span>{new Date(r.date).toLocaleDateString()}</span>
@@ -38,15 +54,18 @@ function History() {
               <span>{r.putts ?? '—'}</span>
               <span>{r.fairwaysInRegulation ?? '—'}</span>
               <span>{r.greensInRegulation ?? '—'}</span>
+              {/* Delete button triggers confirmation before removing the round */}
               <button onClick={() => handleDelete(r._id)} style={styles.deleteBtn}>✕</button>
             </div>
           ))}
+
         </div>
       )}
     </div>
   );
 }
 
+// Inline styles for layout and visual consistency
 const styles = {
   container: { padding: '2rem', maxWidth: '900px', margin: '0 auto' },
   title: { color: '#1a5c2a', marginBottom: '1.5rem' },

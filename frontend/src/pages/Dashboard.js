@@ -8,6 +8,8 @@ function Dashboard() {
   const [rounds, setRounds] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch all rounds for the authenticated user on component mount
+  // Rounds are returned newest first
   useEffect(() => {
     api.get('/rounds').then(res => {
       setRounds(res.data);
@@ -15,14 +17,22 @@ function Dashboard() {
     }).catch(() => setLoading(false));
   }, []);
 
+  // Most recent and second most recent rounds for trend calculation
   const latest = rounds[0];
   const previous = rounds[1];
+
+  // Calculate the average gross score of all logged rounds
   const avg = rounds.length ? Math.round(rounds.reduce((s, r) => s + r.grossScore, 0) / rounds.length) : null;
+
+  // Calculate the score difference between the latest and the previous round
+  // a negative value = improvement (fewer strokes); positive = worse
   const trend = latest && previous ? latest.grossScore - previous.grossScore : null;
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Welcome back, {user?.name}! 👋</h1>
+
+      {/* Summary statistics cards */}
       <div style={styles.grid}>
         <div style={styles.card}>
           <h3>Total Rounds</h3>
@@ -30,6 +40,7 @@ function Dashboard() {
         </div>
         <div style={styles.card}>
           <h3>Average Score</h3>
+          {/* Display '—' if no rounds have been logged yet */}
           <p style={styles.big}>{avg ?? '—'}</p>
         </div>
         <div style={styles.card}>
@@ -38,21 +49,26 @@ function Dashboard() {
         </div>
         <div style={styles.card}>
           <h3>Trend vs Previous</h3>
+          {/* Show improvement, decline, or no change compared to the previous round */}
           <p style={styles.big}>
             {trend === null ? '—' : trend < 0 ? `▲ ${Math.abs(trend)} better` : trend > 0 ? `▼ ${trend} worse` : '= Same'}
           </p>
         </div>
       </div>
+
+      {/* Quick navigation actions */}
       <div style={styles.actions}>
         <Link to="/add-round" style={styles.button}>+ Log New Round</Link>
         <Link to="/history" style={styles.buttonOutline}>View History</Link>
         <Link to="/analytics" style={styles.buttonOutline}>Analytics</Link>
       </div>
+
       {loading && <p>Loading...</p>}
     </div>
   );
 }
 
+// Inline styles for layout and visual consistency
 const styles = {
   container: { padding: '2rem', maxWidth: '900px', margin: '0 auto' },
   title: { color: '#1a5c2a', marginBottom: '2rem' },

@@ -11,19 +11,26 @@ import Navbar from './components/Navbar';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './App.css';
 
+// Guard component that protects routes from unauthenticated access
+// Redirects to /login if no valid token is present in the auth context
 const PrivateRoute = ({ children }) => {
   const { token } = useAuth();
   return token ? children : <Navigate to="/login" />;
 };
 
+// Define all application routes and conditionally renders the Navbar
+// The Navbar is only visible when the user is authenticated
 function AppRoutes() {
   const { token } = useAuth();
   return (
     <>
       {token && <Navbar />}
       <Routes>
+        {/* Public routes — accessible without authentication */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Protected routes — wrapped in PrivateRoute to require authentication */}
         <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/add-round" element={<PrivateRoute><AddRound /></PrivateRoute>} />
@@ -34,6 +41,8 @@ function AppRoutes() {
   );
 }
 
+// root component that wraps the entire app in the AuthProvider and BrowserRouter
+// AuthProvider makes the authentication state available to all child components
 function App() {
   return (
     <AuthProvider>
