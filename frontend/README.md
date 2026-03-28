@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Golf Score Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack web application for tracking golf scores, statistics, and performance analytics.
 
-## Available Scripts
+Live App: https://golf-score-tracker-xcvy.onrender.com
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- User authentication (register/login)
+- Log golf rounds with detailed stats (score, FIR, GIR, putts)
+- View round history
+- Performance analytics and trends
+- Show for multiple golf courses
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React, Axios |
+| Backend | Node.js, Express |
+| Database | MongoDB Atlas |
+| Hosting | Render (Frontend + Backend) |
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository:
 
-### `npm run build`
+    git clone https://github.com/isabeau4iu/golf-score-tracker.git
+    cd golf-score-tracker
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Create backend/.env:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    MONGODB_URI=your_mongodb_uri
+    JWT_SECRET=your_jwt_secret
+    PORT=8000
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Create frontend/.env:
 
-### `npm run eject`
+    REACT_APP_API_URL=http://localhost:8000/api
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. Install and run:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    cd backend && npm install && npm start
+    cd ../frontend && npm install && npm start
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## API Endpoints
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/auth/register | Register user |
+| POST | /api/auth/login | Login user |
+| GET | /api/courses | Get all courses |
+| GET | /api/rounds | Get user rounds |
+| POST | /api/rounds | Log new round |
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
